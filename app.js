@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const connectDatabase = require("./database")
-const Blog = require('./model/blogModel')
+const Blog = require('./model/personModel')
 
 connectDatabase()
 const app = express()
@@ -28,7 +28,7 @@ app.use(cors(
 ))
            
 
-app.post('/blog',upload.single('image'),async (req,res)=>{
+app.post('/person',upload.single('image'),async (req,res)=>{
     const defaultImage = "https://sharedp.com/wp-content/uploads/2024/06/cute-dp-for-girls-cartoon-4k-960x1024.jpg"
     const {title,subtitle,description} = req.body
     let filename;
