@@ -118,7 +118,7 @@ app.patch("/person/:id",upload.single('personImage'),async (req,res)=>{
         filename = "http://localhost:3000/" + req.file.filename
         const person = await Person.findById(id)
         const imageName = person.personImage
-
+        console.log(imageName)
         fs.unlink( `storage/${imageName}`, (err)=>{
             if(err){
                 console.log(err)
