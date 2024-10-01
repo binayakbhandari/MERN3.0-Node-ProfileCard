@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const connectDatabase = require("./database")
-const Blog = require('./model/personModel')
+const Person = require('./model/personModel')
 
 connectDatabase()
 const app = express()
@@ -10,7 +10,6 @@ const {multer,storage} = require('./middleware/multerConfig')
 const upload = multer({storage : storage})
 const fs = require('fs')
 const cors = require('cors')
-const Person = require('./model/personModel')
 
 // app.get('/',(req,res)=>{
 //     res.send("Welcome to home page")
@@ -29,7 +28,7 @@ app.use(cors(
 ))
            
 
-app.post('/person',upload.single('image'),async (req,res)=>{
+app.post('/person',upload.single('personImage'),async (req,res)=>{
     const defaultImage = "https://sharedp.com/wp-content/uploads/2024/06/cute-dp-for-girls-cartoon-4k-960x1024.jpg"
     const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
@@ -45,11 +44,6 @@ app.post('/person',upload.single('image'),async (req,res)=>{
         })
     }
     await Person.create({
-        // title : title,
-        // subtitle : subtitle,
-        // description : description,
-        // image : filename,
-
         personName : personName,
         personProfession : personProfession,
         personAge : personAge,
@@ -95,7 +89,7 @@ app.get('/person/:id',async (req,res)=>{
 app.delete("/person/:id", async (req, res) => {
     const id = req.params.id
     const person = await Person.findById(id)
-    const imageName = person.image
+    const imageName = person.personImage
 
     if(imageName){
         fs.unlink(`storage/${imageName}`, (err) => {
@@ -116,16 +110,16 @@ app.delete("/person/:id", async (req, res) => {
 })
 
 // Update operation
-app.patch("/person/:id",upload.single('image'),async (req,res)=>{
+app.patch("/person/:id",upload.single('personImage'),async (req,res)=>{
     const id = req.params.id
     const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
     if(req.file){
         filename = "http://localhost:3000/" + req.file.filename
         const person = await Person.findById(id)
-        const imageName = person.image
+        const imageName = person.personImage
 
-        fs.unlink(`storage/${imageName}`, (err)=>{
+        fs.unlink( `storage/${imageName}`, (err)=>{
             if(err){
                 console.log(err)
             }else{

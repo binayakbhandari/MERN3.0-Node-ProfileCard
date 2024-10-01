@@ -27,7 +27,7 @@ const personSchema = new Schema({
     personMoto : {
         type : String
     },
-    image : {
+    personImage : {
         type : String
     }
 })
