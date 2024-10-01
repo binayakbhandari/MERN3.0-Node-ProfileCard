@@ -115,7 +115,7 @@ app.patch("/person/:id",upload.single('personImage'),async (req,res)=>{
     const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
     if(req.file){
-        filename = "http://localhost:3000/" + req.file.filename
+        filename = req.file.filename
         const person = await Person.findById(id)
         const imageName = person.personImage
         console.log(imageName)
