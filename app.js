@@ -23,7 +23,7 @@ const cors = require('cors')
 
 app.use(cors(
     {
-        origin : "http://localhost:5173"
+        origin : "https://mern30-react-profilecard.vercel.app"
     }
 ))
            
@@ -33,7 +33,7 @@ app.post('/person',upload.single('personImage'),async (req,res)=>{
     const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
     if(req.file){
-        filename = "http://localhost:3000/" + req.file.filename
+        filename = "https://mern3-0-node-profilecard.onrender.com/" + req.file.filename
     }else{
         filename = defaultImage
     }
@@ -115,7 +115,7 @@ app.patch("/person/:id",upload.single('personImage'),async (req,res)=>{
     const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
     if(req.file){
-        filename = "http://localhost:3000/" + req.file.filename
+        filename = "https://mern3-0-node-profilecard.onrender.com/" + req.file.filename
         const person = await Person.findById(id)
         const imageName = person.personImage.split('/').pop()
         console.log(imageName)
