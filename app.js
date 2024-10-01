@@ -91,7 +91,7 @@ app.delete("/person/:id", async (req, res) => {
     const person = await Person.findById(id)
     const imageName = person.personImage
 
-    if(imageName){
+ 
         fs.unlink(`storage/${imageName}`, (err) => {
             if (err) {
                 console.log(err)
@@ -99,10 +99,7 @@ app.delete("/person/:id", async (req, res) => {
                 console.log("File deleted successfully")
             }
         })
-    }else{
-        console.log("File not found in this blog")
     }
-
     await Person.findByIdAndDelete(id)
     res.status(200).json({
         message: "Blog deleted successfully"
