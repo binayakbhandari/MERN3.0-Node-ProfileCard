@@ -89,7 +89,7 @@ app.get('/person/:id',async (req,res)=>{
 app.delete("/person/:id", async (req, res) => {
     const id = req.params.id
     const person = await Person.findById(id)
-    const imageName = person.personImage
+    const imageName = person.personImage.split('/').pop()
 
     if(imageName){
         fs.unlink(`storage/${imageName}`, (err) => {
@@ -117,7 +117,7 @@ app.patch("/person/:id",upload.single('personImage'),async (req,res)=>{
     if(req.file){
         filename = "http://localhost:3000/" + req.file.filename
         const person = await Person.findById(id)
-        const imageName = person.personImage
+        const imageName = person.personImage.split('/').pop()
         console.log(imageName)
         fs.unlink( `storage/${imageName}`, (err)=>{
             if(err){
