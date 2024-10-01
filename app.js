@@ -10,6 +10,7 @@ const {multer,storage} = require('./middleware/multerConfig')
 const upload = multer({storage : storage})
 const fs = require('fs')
 const cors = require('cors')
+const Person = require('./model/personModel')
 
 // app.get('/',(req,res)=>{
 //     res.send("Welcome to home page")
@@ -23,31 +24,42 @@ const cors = require('cors')
 
 app.use(cors(
     {
-        origin : "https://binayak-one.vercel.app"
+        origin : "http://localhost:5173"
     }
 ))
            
 
 app.post('/person',upload.single('image'),async (req,res)=>{
     const defaultImage = "https://sharedp.com/wp-content/uploads/2024/06/cute-dp-for-girls-cartoon-4k-960x1024.jpg"
-    const {title,subtitle,description} = req.body
+    const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
     if(req.file){
-        filename = "https://mern3-node-ds5t.onrender.com/" + req.file.filename
+        filename = "http://localhost:3000/" + req.file.filename
     }else{
         filename = defaultImage
     }
 
-    if(!title || !subtitle || !description){
+    if(!personName || !personProfession || !personAge || !personHobbies || !personStatus || !personLink || !personMoto){
         return res.status(400).json({
             message : "Please enter title, subtitle or description"
         })
     }
-    await Blog.create({
-        title : title,
-        subtitle : subtitle,
-        description : description,
-        image : filename
+    await Person.create({
+        // title : title,
+        // subtitle : subtitle,
+        // description : description,
+        // image : filename,
+
+        personName : personName,
+        personProfession : personProfession,
+        personAge : personAge,
+        personHobbies : personHobbies,
+        personGender : personGender,
+        personStatus : personStatus,
+        personLink : personLink,
+        personMoto : personMoto,
+        personImage : filename
+
     })
     res.status(200).json({
         message : "Blog created successfully"
@@ -55,35 +67,35 @@ app.post('/person',upload.single('image'),async (req,res)=>{
 })
 
 // Read Operation with find() method 
-app.get('/blog',async (req,res)=>{
-    const blogs = await Blog.find()
+app.get('/person',async (req,res)=>{
+    const persons = await Person.find()
     res.status(200).json({
         message : "Blogs fetched successfully",
-        data : blogs
+        data : persons
     })
 })
 
 // Single read operation with findById() method
-app.get('/blog/:id',async (req,res)=>{
+app.get('/person/:id',async (req,res)=>{
     const id = req.params.id
-    const blog = await Blog.findById(id)
+    const person = await Person.findById(id)
 
-    if(!blog){
+    if(!person){
         return res.status(404).json({
             message : "No data found"
         })
     }
     res.status(200).json({
         message : "Blog fetched successfully",
-        data : blog
+        data : person
     })
 })
 
 // Delete operation
-app.delete("/blog/:id", async (req, res) => {
+app.delete("/person/:id", async (req, res) => {
     const id = req.params.id
-    const blog = await Blog.findById(id)
-    const imageName = blog.image
+    const person = await Person.findById(id)
+    const imageName = person.image
 
     if(imageName){
         fs.unlink(`storage/${imageName}`, (err) => {
@@ -97,21 +109,21 @@ app.delete("/blog/:id", async (req, res) => {
         console.log("File not found in this blog")
     }
 
-    await Blog.findByIdAndDelete(id)
+    await Person.findByIdAndDelete(id)
     res.status(200).json({
         message: "Blog deleted successfully"
     })
 })
 
 // Update operation
-app.patch("/blog/:id",upload.single('image'),async (req,res)=>{
+app.patch("/person/:id",upload.single('image'),async (req,res)=>{
     const id = req.params.id
-    const {title,subtitle,description} = req.body
+    const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
     if(req.file){
-        filename = "https://mern3-node-ds5t.onrender.com/" + req.file.filename
-        const blog = await Blog.findById(id)
-        const imageName = blog.image
+        filename = "http://localhost:3000/" + req.file.filename
+        const person = await Person.findById(id)
+        const imageName = person.image
 
         fs.unlink(`storage/${imageName}`, (err)=>{
             if(err){
@@ -122,11 +134,16 @@ app.patch("/blog/:id",upload.single('image'),async (req,res)=>{
         })
     }
 
-    await Blog.findByIdAndUpdate(id,{
-        title : title,
-        subtitle : subtitle,
-        description : description,
-        image : filename
+    await Person.findByIdAndUpdate(id,{
+        personName : personName,
+        personProfession : personProfession,
+        personAge : personAge,
+        personHobbies : personHobbies,
+        personGender : personGender,
+        personStatus : personStatus,
+        personLink : personLink,
+        personMoto : personMoto,
+        personImage : filename
     })
     res.status(200).json({
         message : "Blog updated successfully"
