@@ -111,7 +111,7 @@ app.delete("/person/:id", async (req, res) => {
 })
 
 // Update operation
-app.patch("/person/:id",upload.single('personImage'),async (req,res)=>{
+app.patch("/edit/:id",upload.single('personImage'),async (req,res)=>{
     const id = req.params.id
     const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
