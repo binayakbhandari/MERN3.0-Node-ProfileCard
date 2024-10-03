@@ -89,8 +89,8 @@ app.get('/person/:id',async (req,res)=>{
 app.delete("/person/:id", async (req, res) => {
     const id = req.params.id
     const person = await Person.findById(id)
-    // const imageName = person.personImage.split('/').pop()
-    const imageName = person.personImage
+    const imageName = person.personImage.split('/').pop()
+    // const imageName = person.personImage
 
     if(imageName){
         fs.unlink(`storage/${imageName}`, (err) => {
@@ -111,15 +111,15 @@ app.delete("/person/:id", async (req, res) => {
 })
 
 // Update operation
-app.patch("/edit/:id",upload.single('personImage'),async (req,res)=>{
+app.patch("/person/:id",upload.single('personImage'),async (req,res)=>{
     const id = req.params.id
     const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
     if(req.file){
         filename = "https://mern3-0-node-profilecard.onrender.com/" + req.file.filename
         const person = await Person.findById(id)
-        // const imageName = person.personImage.split('/').pop()
-        const imageName = person.personImage
+        const imageName = person.personImage.split('/').pop()
+        // const imageName = person.personImage
         console.log(imageName)
         fs.unlink( `storage/${imageName}`, (err)=>{
             if(err){
