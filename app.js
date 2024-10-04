@@ -40,7 +40,7 @@ app.post('/person',upload.single('personImage'),async (req,res)=>{
 
     if(!personName || !personProfession || !personAge || !personHobbies || !personStatus || !personLink || !personMoto){
         return res.status(400).json({
-            message : "Please enter title, subtitle or description"
+            message : "Please enter title, subtitle or description "
         })
     }
     await Person.create({
