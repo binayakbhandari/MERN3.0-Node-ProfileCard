@@ -23,7 +23,7 @@ const cors = require('cors')
 
 app.use(cors(
     {
-        origin : "https://mern3-react-profile-card.vercel.app"
+        origin : "https://binayakbhandari.vercel.app"
     }
 ))
            
