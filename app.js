@@ -29,13 +29,14 @@ app.use(cors(
            
 
 app.post('/person',upload.single('personImage'),async (req,res)=>{
-    const defaultImage = "https://sharedp.com/wp-content/uploads/2024/06/cute-dp-for-girls-cartoon-4k-960x1024.jpg"
+    const boyImage = "https://img.freepik.com/premium-photo/cute-boy-cartoon-hd-8k-wallpaper-stock-photographic-image_1030895-53582.jpg"
+    const girlImage = "https://sharedp.com/wp-content/uploads/2024/06/cute-dp-for-girls-cartoon-4k-960x1024.jpg"
     const { personName, personProfession, personAge, personHobbies, personGender, personStatus, personLink, personMoto } = req.body
     let filename;
     if(req.file){
         filename = "https://mern3-0-node-profilecard.onrender.com/" + req.file.filename
     }else{
-        filename = defaultImage
+        filename = personGender === "male" ? boyImage : girlImage
     }
 
     if(!personName || !personProfession || !personAge || !personHobbies || !personStatus || !personLink || !personMoto){
